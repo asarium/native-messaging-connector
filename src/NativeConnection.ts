@@ -116,12 +116,12 @@ export class NativeConnection {
             } else {
                 const messageLen = readUint32(buffer, 0);
 
-                if (messageLen + 4 >= buffer.length) {
+                if (messageLen + 4 <= buffer.length) {
                     // Message fits entirely into the buffer
                     const messageStr = buffer.toString("utf-8", 4, 4 + messageLen);
                     this.dispatchMessage(messageStr);
 
-                    if (messageLen + 4 > buffer.length) {
+                    if (messageLen + 4 < buffer.length) {
                         // There are more messages left in the buffer
                         this._messageQueue[0] = buffer.slice(messageLen + 4);
                     } else {
